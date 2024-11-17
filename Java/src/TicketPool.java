@@ -40,16 +40,8 @@ public class TicketPool {
         return totalTickets;
     }
 
-    public void setTotalTickets(List<Integer> totalTickets) {
-        this.totalTickets = totalTickets;
-    }
-
     public List<Integer> getSoldTickets() {
         return soldTickets;
-    }
-
-    public void setSoldTickets(List<Integer> soldTickets) {
-        this.soldTickets = soldTickets;
     }
 
     public List<Integer> getAvailableTickets() {

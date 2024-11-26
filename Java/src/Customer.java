@@ -25,6 +25,12 @@ public class Customer implements Runnable{
             // Not enough tickets available
             System.out.println("Not enough tickets available for " + customerName);
         }
+
+        try{
+            Thread.sleep(customerRetrievalRate);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }

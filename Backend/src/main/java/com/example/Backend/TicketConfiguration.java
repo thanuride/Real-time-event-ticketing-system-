@@ -2,10 +2,6 @@ package com.example.Backend;
 
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 @Component
 public class TicketConfiguration {
     private int totalTickets;
@@ -13,9 +9,8 @@ public class TicketConfiguration {
     private  int retrievalRate;
     private int ticketCapacity;
 
-
-    public void setTotalTickets(int totalTickets) {
-        this.totalTickets = totalTickets;
+    public int getTotalTickets() {
+        return totalTickets;
     }
 
     public int getRetrievalRate() {

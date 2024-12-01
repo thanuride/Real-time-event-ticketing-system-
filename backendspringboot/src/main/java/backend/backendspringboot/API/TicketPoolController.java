@@ -1,5 +1,6 @@
-package com.example.Backend;
+package backend.backendspringboot.API;
 
+import backend.backendspringboot.domian.TicketPool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/ticketpool")
 public class TicketPoolController {
 
-    private final TicketPool ticketPool;
+    private TicketPool ticketPool;
     @Autowired
-    public TicketPoolController(TicketPool ticketPool) {
+    public void setTicketPool(TicketPool ticketPool) {
         this.ticketPool = ticketPool;
     }
 
@@ -24,4 +25,5 @@ public class TicketPoolController {
     public String availableTickets(){
         return "Availble Tickets:" + ticketPool.getAvailableTickets().size();
     }
+
 }

@@ -31,21 +31,23 @@ public class TicketPoolService {
         for (int i = 1; i <= tickets;i++){
             if (ticketPool.getAvailableTickets().size() < ticketConfiguration.getMaxTicketCapacity() ){
                 count ++;
-                ticketPool.getTotalTickets().add(count);
-                ticketPool.getAvailableTickets().add(count);
             } else {
                 System.out.println("Ticket pool has reached its maximum capacity");
                 break;
             }
         }
+        ticketPool.getTotalTickets().add(count);
+        ticketPool.getAvailableTickets().add(count);
     }
 
     //method to remove tickets
     public  synchronized  void removeTickets(int tickets){
+        int count = 0;
         for (int i = 1; i <= tickets && !ticketPool.getAvailableTickets().isEmpty(); i++ ){
-            ticketPool.getAvailableTickets().remove(0);
-            ticketPool.getSoldTickets().add(tickets);
+            count ++;
         }
+        ticketPool.getAvailableTickets().remove(count);
+        ticketPool.getSoldTickets().add(count);
         System.out.println("Tickets after purchase: " + ticketPool.getAvailableTickets().size());
     }
 

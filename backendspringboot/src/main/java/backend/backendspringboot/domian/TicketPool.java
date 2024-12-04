@@ -15,6 +15,12 @@ public class TicketPool {
     public TicketPool() {
     }
 
+    public TicketPool(List<Integer> totalTickets, List<Integer> soldTickets, List<Integer> availableTickets) {
+        this.totalTickets = totalTickets;
+        this.soldTickets = soldTickets;
+        this.availableTickets = availableTickets;
+    }
+
     public List<Integer> getTotalTickets() {
         return totalTickets;
     }

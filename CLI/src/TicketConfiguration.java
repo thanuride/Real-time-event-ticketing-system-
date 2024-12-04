@@ -65,14 +65,4 @@ public class TicketConfiguration {
         }
     }
 
-    // Method to load from JSON
-    public static TicketConfiguration loadFromJson(String filePath) {
-        Gson gson = new Gson();
-        try (FileReader reader = new FileReader(filePath)) {
-            return gson.fromJson(reader, TicketConfiguration.class);
-        } catch (IOException e) {
-            System.out.println("Error loading configuration: " + e.getMessage());
-            return null;
-        }
-    }
 }

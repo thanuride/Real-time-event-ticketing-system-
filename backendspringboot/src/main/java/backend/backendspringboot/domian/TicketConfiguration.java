@@ -13,6 +13,13 @@ public class TicketConfiguration {
     public TicketConfiguration() {
     }
 
+    public TicketConfiguration(int totalTickets, int ticketReleaseRate, int customerRetrievalRate, int maxTicketCapacity) {
+        this.totalTickets = totalTickets;
+        this.ticketReleaseRate = ticketReleaseRate;
+        this.customerRetrievalRate = customerRetrievalRate;
+        this.maxTicketCapacity = maxTicketCapacity;
+    }
+
     public int getTotalTickets() {
         return totalTickets;
     }

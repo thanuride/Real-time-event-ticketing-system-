@@ -1,6 +1,7 @@
 package backend.backendspringboot.application;
 
 import backend.backendspringboot.domian.TicketConfiguration;
+import backend.backendspringboot.domian.TicketPool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,17 +20,25 @@ public class VendorService implements  Runnable{
         this.ticketPoolService = ticketPoolService;
     }
 
+    private TicketPool ticketPool;
+    @Autowired
+    public void setTicketPool(TicketPool ticketPool) {
+        this.ticketPool = ticketPool;
+    }
 
-    public void run(){
-        int count = 0;
-        for (int i = 0 ;i < ticketConfiguration.getTotalTickets(); i++){
-            count++;
-            ticketPoolService.addTickets(count);
-        }try {
-            Thread.sleep(ticketConfiguration.getTicketReleaseRate() * 1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+    public void run() {
+        int totalTickets = ticketConfiguration.getTotalTickets();
+        for (int i = 0; i < totalTickets; i++) {
+            ticketPoolService.addTickets(1); // Adds one ticket at a time
+            try {
+                Thread.sleep(ticketConfiguration.getTicketReleaseRate() * 1000L);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("Thread interrupted while adding tickets", e);
+            }
         }
+
+//        System.out.println(ticketPool.getAvailableTickets().size());
     }
 
 

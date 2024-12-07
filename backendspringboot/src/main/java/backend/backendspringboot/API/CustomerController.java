@@ -3,13 +3,11 @@ package backend.backendspringboot.API;
 import backend.backendspringboot.application.CustomerService;
 import backend.backendspringboot.domian.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/customer")
+@CrossOrigin(origins = "http://localhost:3000")
 public class CustomerController {
 
     private Customer customer;
@@ -26,7 +24,8 @@ public class CustomerController {
 
     @PostMapping("/getTickets")
     public String getTickets(@RequestParam String customerName, @RequestParam int noOfTickets) {
-        Customer customer = new Customer(customerName, noOfTickets);
+        customer.setCustomerName(customerName);
+        customer.setNoOfTickets(noOfTickets);
         new Thread(() -> customerService.run()).start();
         return "Customer " + customerName + " is purchasing " + noOfTickets + " tickets.";
     }

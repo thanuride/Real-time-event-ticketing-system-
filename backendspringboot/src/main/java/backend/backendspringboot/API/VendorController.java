@@ -1,7 +1,6 @@
 package backend.backendspringboot.API;
 
 import backend.backendspringboot.application.VendorService;
-import backend.backendspringboot.domian.TicketPool;
 import backend.backendspringboot.domian.Vendor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +26,12 @@ public class VendorController {
     @PostMapping("/add")
     public String addTickets(@RequestParam String vendorName) {
         vendor.setVendorName(vendorName);
-//        Thread vendor = new Thread(vendorName);
         new Thread(() -> vendorService.run()).start();
         return "vendor " + vendorName +" added tickets.";
+    }
+
+    @GetMapping("/isThreadRunning")
+    public boolean isThreadRunning() {
+        return vendorService.isThreadRunning();
     }
 }

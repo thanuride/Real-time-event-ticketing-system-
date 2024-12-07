@@ -1,7 +1,6 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -11,48 +10,29 @@ public class TicketConfiguration {
     private  int retrievalRate;
     private int ticketCapacity;
 
+    public TicketConfiguration(int totalTickets, int ticketReleaseRate, int retrievalRate, int ticketCapacity) {
+        this.totalTickets = totalTickets;
+        this.ticketReleaseRate = ticketReleaseRate;
+        this.retrievalRate = retrievalRate;
+        this.ticketCapacity = ticketCapacity;
+    }
+
     public int getTotalTickets() {
         return totalTickets;
     }
 
-    public void setTotalTickets(int totalTickets) {
-        if (totalTickets < 0 ){
-            throw new IllegalArgumentException("Total Tickets Should Be Greater than ZERO");
-        }
-        this.totalTickets = totalTickets;
-    }
 
     public int getTicketReleaseRate() {
         return ticketReleaseRate;
     }
 
-    public void setTicketReleaseRate(int ticketReleaseRate) {
-        if (ticketReleaseRate < 0 ){
-            throw new IllegalArgumentException("Ticket Release Rate Should Be Greater than ZERO");
-        }
-        this.ticketReleaseRate = ticketReleaseRate;
-    }
 
     public int getRetrievalRate() {
         return retrievalRate;
     }
 
-    public void setRetrievalRate(int retrievalRate) {
-        if ( retrievalRate < 0 ){
-            throw new IllegalArgumentException("Ticket Retrieval Should Be Greater than ZERO");
-        }
-        this.retrievalRate = retrievalRate;
-    }
-
     public int getTicketCapacity() {
         return ticketCapacity;
-    }
-
-    public void setTicketCapacity(int ticketCapacity) {
-        if ( ticketCapacity < 0 ){
-            throw new IllegalArgumentException("Ticket Capacity Should Be Greater than ZERO");
-        }
-        this.ticketCapacity = ticketCapacity;
     }
 
     // Method to save to JSON
@@ -62,6 +42,7 @@ public class TicketConfiguration {
             gson.toJson(this, writer);
         } catch (IOException e) {
             System.out.println("Error saving configuration: " + e.getMessage());
+            Log.logError("Error saving configuration:" + e.getMessage());
         }
     }
 

@@ -25,6 +25,6 @@ public class TicketConfigurationController {
         ticketConfiguration.setCustomerRetrievalRate(config.getCustomerRetrievalRate());
         ticketConfiguration.setMaxTicketCapacity(config.getMaxTicketCapacity());
 
-        return "configured the parameters";
+        return "configured the parameters " + ticketConfiguration.getMaxTicketCapacity();
     }
 }

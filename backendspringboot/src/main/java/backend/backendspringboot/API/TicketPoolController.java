@@ -24,8 +24,10 @@ public class TicketPoolController {
     }
 
     @GetMapping("/availableTickets")
-    public String availableTickets(){
-        return "Availble Tickets:" + ticketPool.getAvailableTickets().size();
+    public int availableTickets(){
+        return  ticketPool.getAvailableTickets().size();
+
     }
+
 
 }

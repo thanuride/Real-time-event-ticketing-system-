@@ -11,11 +11,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TicketPoolService {
     // Dependency Injection for TicketPool
     private TicketPool ticketPool;
-
     @Autowired
     public void setTicketPool(TicketPool ticketPool) {
         this.ticketPool = ticketPool;
     }
+
     // Dependency Injection for TicketConfiguration
     private TicketConfiguration ticketConfiguration;
     @Autowired
@@ -23,32 +23,29 @@ public class TicketPoolService {
         this.ticketConfiguration = ticketConfiguration;
     }
 
-
-
     //method to add tickets
     public synchronized void addTickets(int tickets){
-        int count = 0;
-        for (int i = 1; i <= tickets;i++){
-            if (ticketPool.getAvailableTickets().size() < ticketConfiguration.getMaxTicketCapacity() ){
-                count ++;
-            } else {
-                System.out.println("Ticket pool has reached its maximum capacity");
-                break;
-            }
-        }
-        ticketPool.getTotalTickets().add(count);
-        ticketPool.getAvailableTickets().add(count);
+        ticketPool.getTotalTickets().add(tickets);
+        ticketPool.getAvailableTickets().add(tickets);
     }
 
     //method to remove tickets
-    public  synchronized  void removeTickets(int tickets){
-        int count = 0;
-        for (int i = 1; i <= tickets && !ticketPool.getAvailableTickets().isEmpty(); i++ ){
-            count ++;
+    public synchronized void removeTickets(int tickets) {
+        for (int i = 0; i < tickets; i++) {
+            if (!ticketPool.getAvailableTickets().isEmpty()) {
+                ticketPool.getAvailableTickets().remove(0); // Remove one ticket from available tickets
+                ticketPool.getSoldTickets().add(1); // Add a sold ticket (represented as 1)
+
+//                Log.logInfo("Ticket purchased. Available tickets left: " + ticketPool.getAvailableTickets().size());
+            } else {
+                System.out.println("No more tickets available to remove.");
+//                Log.logWarning("No more tickets available to remove.");
+                break; // If no tickets are available, stop processing
+            }
         }
-        ticketPool.getAvailableTickets().remove(count);
-        ticketPool.getSoldTickets().add(count);
+
         System.out.println("Tickets after purchase: " + ticketPool.getAvailableTickets().size());
+        System.out.println("Sold tickets: " + ticketPool.getSoldTickets().size());
     }
 
 }

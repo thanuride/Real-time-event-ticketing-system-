@@ -1,6 +1,8 @@
 package backend.backendspringboot.API;
 
+import backend.backendspringboot.application.TicketConfigurationService;
 import backend.backendspringboot.domian.TicketConfiguration;
+import backend.backendspringboot.domian.Vendor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,12 +12,16 @@ import org.springframework.web.bind.annotation.*;
 public class TicketConfigurationController {
 
     private TicketConfiguration ticketConfiguration;
-
     @Autowired
     public void setTicketConfiguration(TicketConfiguration ticketConfiguration) {
         this.ticketConfiguration = ticketConfiguration;
     }
 
+    private TicketConfigurationService ticketConfigurationService;
+    @Autowired
+    public void setTicketConfigurationService(TicketConfigurationService ticketConfigurationService) {
+        this.ticketConfigurationService = ticketConfigurationService;
+    }
 
     @PostMapping("/setConfigurations")
     public String configure(@RequestBody TicketConfiguration config){
@@ -25,6 +31,10 @@ public class TicketConfigurationController {
         ticketConfiguration.setCustomerRetrievalRate(config.getCustomerRetrievalRate());
         ticketConfiguration.setMaxTicketCapacity(config.getMaxTicketCapacity());
 
-        return "configured the parameters " + ticketConfiguration.getMaxTicketCapacity();
+        ticketConfigurationService.save(ticketConfiguration);
+
+        return "configured the parameters " ;
     }
+
+
 }

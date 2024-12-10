@@ -1,13 +1,19 @@
 package backend.backendspringboot.domian;
 
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import org.springframework.stereotype.Component;
 
+@Entity
 @Component
 public class Vendor{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int vendorId;
 
     private String vendorName;
-    private String vendorId;
 
     public Vendor() {
     }
@@ -16,9 +22,10 @@ public class Vendor{
         this.vendorName = vendorName;
     }
 
-    public Vendor(String vendorName, String vendorId) {
-        this.vendorName = vendorName;
+    public Vendor(int vendorId, String vendorName) {
         this.vendorId = vendorId;
+        this.vendorName = vendorName;
+
     }
 
 
@@ -30,11 +37,11 @@ public class Vendor{
         this.vendorName = vendorName;
     }
 
-    public String getVendorId() {
+    public int getVendorId() {
         return vendorId;
     }
 
-    public void setVendorId(String vendorId) {
+    public void setVendorId(int vendorId) {
         this.vendorId = vendorId;
     }
 }

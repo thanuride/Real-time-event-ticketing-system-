@@ -1,10 +1,18 @@
 package backend.backendspringboot.domian;
 
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import org.springframework.stereotype.Component;
 
+@Entity
 @Component
 public class TicketConfiguration {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int Id;
     private int totalTickets;
     private int ticketReleaseRate;
     private int customerRetrievalRate;

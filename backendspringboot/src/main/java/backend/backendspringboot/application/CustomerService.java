@@ -1,9 +1,7 @@
 package backend.backendspringboot.application;
 
-
-import backend.backendspringboot.domian.Customer;
-import backend.backendspringboot.domian.TicketConfiguration;
-import backend.backendspringboot.domian.TicketPool;
+import backend.backendspringboot.domian.*;
+import backend.backendspringboot.log.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,11 +33,23 @@ public class CustomerService implements Runnable {
         this.ticketConfiguration = ticketConfiguration;
     }
 
+    private CustomerRepository customerRepository;
+    @Autowired
+    public void setCustomerRepository(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
+
+    //save to database
+    public void save(Customer customer){
+        customerRepository.save(customer);
+    }
+
     public CustomerService() {
     }
 
     public void run() {
         if (ticketpool.getAvailableTickets().isEmpty()) {
+            Log.logInfo("No tickets available for purchase. Customer: " + customer.getCustomerName());
             System.out.println("No tickets available for purchase.");
             return;
         }
@@ -47,6 +57,7 @@ public class CustomerService implements Runnable {
         int ticketsToPurchase = customer.getNoOfTickets();
 
         if (ticketpool.getAvailableTickets().size() < ticketsToPurchase) {
+            Log.logWarning("Not enough tickets available for " + customer.getCustomerName());
             System.out.println("Not enough tickets available for " + customer.getCustomerName());
             return;
         }
@@ -62,65 +73,16 @@ public class CustomerService implements Runnable {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt(); // Propagate the interrupt
                 System.out.println("Customer thread interrupted.");
+                Log.logWarning("Customer thread interrupted during ticket purchase. Customer: " + customer.getCustomerName());
             }
         }
 
         System.out.println("Purchase complete for " + customer.getCustomerName());
         System.out.println("Available Tickets: " + ticketpool.getAvailableTickets().size());
         System.out.println("Sold Tickets: " + ticketpool.getSoldTickets().size());
+        Log.logInfo("Purchase complete for " + customer.getCustomerName());
+        Log.logInfo("Available Tickets: " + ticketpool.getAvailableTickets().size());
+        Log.logInfo("Sold Tickets: " + ticketpool.getSoldTickets().size());
     }
-
-
-//    public void run(){
-////        if (ticketpool.getAvailableTickets().isEmpty()) {
-////            System.out.println("No tickets available for purchase.");
-////            return;
-////        }
-////        for (int i = 0; i < customer.getNoOfTickets(); i++){
-////            if (ticketpool.getAvailableTickets().size() > customer.getNoOfTickets()){
-////                ticketPoolService.removeTickets(1);
-////                System.out.println("Customer Purchased Ticket");
-////            }else {
-////                // Not enough tickets available
-////                System.out.println("Not enough tickets available for " + customer.getCustomerName());
-////            }try{
-////                Thread.sleep(ticketConfiguration.getCustomerRetrievalRate());
-////            } catch (InterruptedException e) {
-////                e.printStackTrace();
-////            }
-////
-////            System.out.println(ticketpool.getAvailableTickets());
-////            System.out.println(ticketpool.getSoldTickets());
-////        }
-//
-//        if (ticketpool.getAvailableTickets().isEmpty()) {
-//            System.out.println("No tickets available for purchase.");
-//            return;
-//        }
-//
-//        int ticketsToPurchase = customer.getNoOfTickets();
-//
-//        if (ticketpool.getAvailableTickets().size() < ticketsToPurchase) {
-//            System.out.println("Not enough tickets available for " + customer.getCustomerName());
-//            return;
-//        }
-//
-//        // Remove tickets one by one, simulating delay
-//        for (int i = 0; i < ticketsToPurchase; i++) {
-//            ticketPoolService.removeTickets(1); // Removes one ticket at a time
-//            System.out.println("Ticket purchased by " + customer.getCustomerName());
-//
-//            // Simulate processing delay
-//            try {
-//                Thread.sleep(ticketConfiguration.getCustomerRetrievalRate());
-//            } catch (InterruptedException e) {
-//                Thread.currentThread().interrupt();
-//                System.out.println("Customer thread interrupted.");
-//            }
-//        }
-//
-//        System.out.println("Purchase complete for " + customer.getCustomerName());
-//        System.out.println("Available Tickets: " + ticketpool.getAvailableTickets().size());
-//        System.out.println("Sold Tickets: " + ticketpool.getSoldTickets().size());
 
 }

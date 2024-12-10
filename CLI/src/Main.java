@@ -1,14 +1,17 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) {
 
         Scanner input = new Scanner(System.in);
         // Create and store threads
         List<Thread> threads = new ArrayList<>();
+
 
         boolean continueConfiguration = true;
 
@@ -153,6 +156,7 @@ public class Main {
             System.out.println("\nConfiguration saved to config.json");
             Log.logInfo("Configuration saved to config.json");
 
+
             // Collect number of vendors
             int numVendors ;
             while (true) {
@@ -213,7 +217,6 @@ public class Main {
             }
 
 
-
             // Start all threads
             for (Thread thread : threads) {
                 thread.start();
@@ -228,6 +231,7 @@ public class Main {
                     System.out.println("Thread interrupted.");
                 }
             }
+
 
             System.out.println("+".repeat(40));
             System.out.println("Available Tickets: "+ticketPool.getAvailableTickets().size());

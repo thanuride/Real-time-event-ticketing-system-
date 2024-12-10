@@ -7,13 +7,6 @@ public class Log {
 
     static {
         try {
-
-            // Clear existing handlers to prevent logging to the console
-            Handler[] handlers = logger.getHandlers();
-            for (Handler handler : handlers) {
-                logger.removeHandler(handler);
-            }
-
             // Set up the file handler to write logs to a file
             fileHandler = new FileHandler("system.log", true);
             fileHandler.setFormatter(new SimpleFormatter());  // Basic text formatting
